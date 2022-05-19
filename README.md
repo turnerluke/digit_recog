@@ -26,6 +26,11 @@ Data augmentation is performed the prevent overfitting of the dataset, using the
 
 The model used is the LeNet-5 v2.0 convolutional neural network (CNN), originally presented in [LeCun et al., Gradient-Based Learning Applied to Document Recognition](http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf).
 
+The model was implemented in Keras, as shown here:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/turnerluke/digit_recog/blob/main/models/LeNet_5_train.ipynb)
+
+
 The structure of this CNN is as follows:
 
 ```
@@ -89,4 +94,9 @@ _________________________________________________________________
 ```
 
 <img src="/images/LeNet 5 v2 Vis.png">
+
 **Figure 1:** *Model CNN Visualization.*
+
+# Application
+
+The web app presents a clean user interface containing a canvas to draw the digits, a clear button, a predict button, a descriptive prediciton and some miscellaneous information about the project.
