@@ -98,4 +98,6 @@ _________________________________________________________________
 
 # Application
 
-The web app presents a clean user interface containing a canvas to draw the digits, a clear button, a predict button, a descriptive prediciton and some miscellaneous information about the project.
+The web app presents a clean user interface containing a canvas to draw the digits, a clear button, a predict button, a descriptive prediciton, and some miscellaneous information about the project.
+
+The website was constructed in [Flask](https://flask.palletsprojects.com/en/2.1.x/f).
