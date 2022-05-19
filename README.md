@@ -28,8 +28,7 @@ The model used is the LeNet-5 v2.0 convolutional neural network (CNN), originall
 
 The model was implemented in Keras, as shown here:
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/turnerluke/digit_recog/blob/main/models/LeNet_5_train.ipynb)
-
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/turnerluke/digit_recog/blob/main/models/LeNet_5_train.ipynb)
 
 The structure of this CNN is as follows:
 
