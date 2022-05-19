@@ -40,8 +40,8 @@ _________________________________________________________________
                                                                  
  convolution_2 (Conv2D)      (None, 24, 24, 32)        25600     
                                                                  
- batchnorm_1 (BatchNormaliza  (None, 24, 24, 32)       128       
- tion)                                                           
+ batchnorm_1 (BatchNormaliz  (None, 24, 24, 32)        128       
+ ation)                                                           
                                                                  
  activation_25 (Activation)  (None, 24, 24, 32)        0         
                                                                  
@@ -53,8 +53,8 @@ _________________________________________________________________
                                                                  
  convolution_4 (Conv2D)      (None, 8, 8, 64)          36864     
                                                                  
- batchnorm_2 (BatchNormaliza  (None, 8, 8, 64)         256       
- tion)                                                           
+ batchnorm_2 (BatchNormaliz  (None, 8, 8, 64)          256       
+ ation)                                                           
                                                                  
  activation_26 (Activation)  (None, 8, 8, 64)          0         
                                                                  
@@ -66,22 +66,22 @@ _________________________________________________________________
                                                                  
  fully_connected_1 (Dense)   (None, 256)               262144    
                                                                  
- batchnorm_3 (BatchNormaliza  (None, 256)              1024      
- tion)                                                           
+ batchnorm_3 (BatchNormaliz  (None, 256)               1024      
+ ation)                                                           
                                                                  
  activation_27 (Activation)  (None, 256)               0         
                                                                  
  fully_connected_2 (Dense)   (None, 128)               32768     
                                                                  
- batchnorm_4 (BatchNormaliza  (None, 128)              512       
- tion)                                                           
+ batchnorm_4 (BatchNormaliz  (None, 128)               512       
+ ation)                                                           
                                                                  
  activation_28 (Activation)  (None, 128)               0         
                                                                  
  fully_connected_3 (Dense)   (None, 84)                10752     
                                                                  
- batchnorm_5 (BatchNormaliza  (None, 84)               336       
- tion)                                                           
+ batchnorm_5 (BatchNormaliz  (None, 84)                336       
+ ation)                                                           
                                                                  
  activation_29 (Activation)  (None, 84)                0         
                                                                  
