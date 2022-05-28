@@ -1,11 +1,7 @@
-## TODO:
-- Write Content
-- Publish
-
 # digit_recog
 Web app to recognize digits using Keras ML model, trained on the mnist dataset.
 
-This web app deploys a wide variety of technologies, including Keras, Flask, Bootstrap, and html.
+This web app deploys a wide variety of technologies, including Keras, Flask, HTML, CSS, Bootstrap, and Heroku.
 
 # Data
 
