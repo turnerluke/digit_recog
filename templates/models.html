@@ -1,106 +1,231 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <title>Models</title>
-	<!--<form action="{{ url_for('index_page') }}" method=post>-->
-    <link href="static/bootstrap.min.css" rel="stylesheet">
+	{% block title %}
+		Models
+	{% endblock %}
 
-    <link href="static/small-business.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="static/style.css">
+	{% block content %}
+		<div class="container" class="col-md-7">
+            <div>
+                <h1>Model</h1>
+                <p>
+                    The model used is the LeNet-5 v2.0 convolutional neural network (CNN), originally presented in <a href="http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf">LeCun et al., Gradient-Based Learning Applied to Document Recognition</a>.
 
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+                    <br>
+                    <br>
 
-</head>
+                    The model was implemented in Keras as shown here:
 
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ url_for('index_page') }}">
-                    <img src="/static/logo.jpg" alt="">
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{{ url_for('about') }}">About the project</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('internals') }}">Project description</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('models') }}">Models</a>
-                    </li>
+                    <br><br>
+
+                    <a href="https://colab.research.google.com/github/turnerluke/digit_recog/blob/main/models/LeNet_5_train.ipynb">
+                        <img src="https://colab.research.google.com/assets/colab-badge.svg">
+                    </a>
+
+                </p>
+
+                <hr>
+
+                <h1>Convolutional Neural Network Structure</h1>
+                <p>
+                    The structure of LeNet-5 v2.0 is as follows:
+
+                    <br>
+
+                    <table class="table table-hover">
+                      <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Layer (Type)</th>
+                        <th scope="col">Output Shape</th>
+                        <th scope="col">Parameters</th>
+                      </tr>
+                      </thead>
+
+                        <tr>
+                          <td>Convolution_1 (conv2d)</td>
+                          <td>(None, 28, 28, 32)</td>
+                          <td>832</td>
+                        </tr>
+                        <tr>
+                          <td>Convolution_2 (conv2d)</td>
+                          <td>(None, 24, 24, 32)</td>
+                          <td>25600</td>
+                        </tr>
+                        <tr>
+                          <td>Batchnorm_1 (batchnormalization)</td>
+                          <td>(None, 24, 24, 32)</td>
+                          <td>128</td>
+                        </tr>
+                        <tr>
+                          <td>Activation_25 (activation)</td>
+                          <td>(None, 24, 24, 32)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Max_pool_1 (maxpooling2d)</td>
+                          <td>(None, 12, 12, 32)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Dropout_1 (dropout)</td>
+                          <td>(None, 12, 12, 32)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Convolution_3 (conv2d)</td>
+                          <td>(None, 10, 10, 64)</td>
+                          <td>18496</td>
+                        </tr>
+                        <tr>
+                          <td>Convolution_4 (conv2d)</td>
+                          <td>(None, 8, 8, 64 )</td>
+                          <td>36864</td>
+                        </tr>
+                        <tr>
+                          <td>Batchnorm_2 (batchnormalization)</td>
+                          <td>(None, 8, 8, 64)</td>
+                          <td>256</td>
+                        </tr>
+                        <tr>
+                          <td>Activation_26 (activation)</td>
+                          <td>(None, 8, 8, 64)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Max_pool_2 (maxpooling2d)</td>
+                          <td>(None, 4, 4, 64)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Dropout_2 (dropout)</td>
+                          <td>(None, 4, 4, 64)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Flatten (flatten)</td>
+                          <td>(None, 1024)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Fully_connected_1 (dense)</td>
+                          <td>(None, 256)</td>
+                          <td>262144</td>
+                        </tr>
+                        <tr>
+                          <td>Batchnorm_3 (batchnormalization)</td>
+                          <td>(None, 256)</td>
+                          <td>1024</td>
+                        </tr>
+                        <tr>
+                          <td>Activation_27 (activation)</td>
+                          <td>(None, 256)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Fully_connected_2 (dense)</td>
+                          <td>(None, 128)</td>
+                          <td>32768</td>
+                        </tr>
+                        <tr>
+                          <td>Batchnorm_4 (batchnormalization)</td>
+                          <td>(None, 128)</td>
+                          <td>512</td>
+                        </tr>
+                        <tr>
+                          <td>Activation_28 (activation)</td>
+                          <td>(None, 128)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Fully_connected_3 (dense)</td>
+                          <td>(None, 84)</td>
+                          <td>10752</td>
+                        </tr>
+                        <tr>
+                          <td>Batchnorm_5 (batchnormalization)</td>
+                          <td>(None, 84)</td>
+                          <td>336</td>
+                        </tr>
+                        <tr>
+                          <td>Activation_29 (activation)</td>
+                          <td>(None, 84)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Dropout_3 (dropout)</td>
+                          <td>(None, 84)</td>
+                          <td>0</td>
+                        </tr>
+                        <tr>
+                          <td>Output (dense)</td>
+                          <td>(None, 10)</td>
+                          <td>850</td>
+                        </tr>
+
+
+                    </table>
+
+                </p>
+
+                <img src = "/static/LeNet_5_v2_Vis.png" alt = "LeNet 5 v2 Structure" width="95%"> </img>
+                <br>
+                <b>Figure 1:</b> <i>Model Structure (Created with <a href="http://alexlenail.me/NN-SVG/LeNet.html">NN-SVG</a>)</i>.
+
+                <br>
+                <br>
+
+                <hr>
+                <h1>Data</h1>
+                <p>
+                    The Modified National Institute of Standards and Technology (MNIST) dataset of handwritten digits was used as the training and validation datasets for this model. The dataset was obtained from the keras.datasets module as follows:
+                    <br>
+                    <code>
+                        (X_train, y_train), (X_test, y_test) = keras.datasets.mnist.load_data()
+                    </code>
+                    <br>
+
+                    This dataset consists of 60,000 training and 10,000 testing digits and their corresponding labels.
+
+                    The data is normalized to have a mean value of 0 and standard deviaiton of 1.
+
+                    Data augmentation is performed to prevent overfitting of the dataset, using the following random operations:
+                    <ul>
+                        <li>10 degree rotations</li>
+                        <li>10% zoom</li>
+                        <li>10% horizontal shifts</li>
+                        <li>10% vertical shifts</li>
+                    </ul>
+
+                </p>
+
+                <h1>Training</h1>
+                <p>
+                    The model was trained for 30 epochs, as originally performed by LeCun et al. The loss function was categorical cross entropy, and the accuracy metric was utilized to quantify performance.
+                </p>
+
+                <h1>Model Performance</h1>
+                <p>
+                    This model achieved a final accuracy of 99.63% on the test set, after 30 epochs of training.
+
+                    <img src = "static/training.png" alt = "Training Progress" width = "80%">
+                    <br>
+                    <b>Figure 2:</b> <i>Training and Validation Loss and Accuracy Versus Training Epoch</a></i>.
+
+                </p>
+
+                <h3>Confusion Matrix</h3>
+
+                <img src = "/static/cm.png" alt = "Confusion Matrix LeNet-5 v2 on MNIST" width="80%"> </img>
+                <br>
+                <b>Figure 3:</b> <i>Confusion Matrix on the MNIST Dataset</a></i>.
+
+
+                <br>
+
                 </ul>
             </div>
         </div>
-    </nav>
-
-    <div class="container" class="col-md-7">
-            <div>
-                <h1>Model used in the project</h1>
-                <p>This project uses one CNN model written on Pytorch. It was inspired by Pytorch challenge by Udacity and Facebook. Model was trained on ~6000 images, which were gathered thanks to the previous version of the project.</p>
-
-                <h2>Convolutional neural net</h2>
-                <p>The structure of model is simple: </p>
-                <img src = "/static/9.jpg" alt = "FNN architecture"> </img><br>
-
-                <script src="https://gist.github.com/Erlemar/880c6366816374012554e3167459f30d.js"></script>
-
-                <h3>Code explanation</h3>
-
-                <ul>
-                    <li>At first it is necessary to create a Dataset class. Digits are loaded from folders with relevant names and cropped with bounding boxes. I made sure that each image contains only one digit. Non-digits are in a separate folder called "other1". The number of these digits is quite low, so I use oversampling;</li>
-                    <li>I resize data to 32x32 and use some augmentations - random flips and rotations;</li>
-                    <li>It is necessary to ohe-hot encode labels;</li>
-                    <li>Considering low number of non-digits I decided to use weights in the loss. Each sample gain a weight equal to length of dataset divided by number of images with its label;</li>
-                    <li>Model has an output without activations because BCEWithLogitsLoss is used;</li>
-                    <li>Optimizer is SGD and CosineAnnealingLR is used as a scheduler;</li>
-                    <li>While training I use early stopping based on validation loss - if it doesn't decrease for 15 epochs, then training is stopped and best model is loaded;</li>
-                    <li>Model is saved with optimizer state, training statistics are also saved for plotting if necessary later;</li>
-
-                <h3>Model's training and accuracy</h3>
-                <p>I have tried using various values for parameters, adding or dropping layers and changing layers' and weights' shape. You can see the final version in the code above.</p>
-
-                <p>The process of training the final model looked like this:</p><br>
 
 
-                <iframe width="800" height="600" frameborder="0" scrolling="no" src="//plot.ly/~Artgor/40.embed?showlink=false"></iframe>
-                <iframe width="800" height="600" frameborder="0" scrolling="no" src="//plot.ly/~Artgor/42.embed?showlink=false"></iframe>
-
-                <p>This confusion matrix shows quality of predictions on validation data.</p>
-                <img src = "/static/3.jpg" alt = "CNN MNIST confusion matrix" > </img><br>
-
-        <hr>
-
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; <a href="https://github.com/Erlemar/digit-draw-predict">Github</a></p>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-    <script src="static/jquery.js"></script>
-    <script src="static/bootstrap.min.js"></script>
-	<script src="static/draw.js"></script>
-</body>
-
-</html>
+	{% endblock %}

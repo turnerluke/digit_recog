@@ -9,37 +9,47 @@
 		<div class="container">
 
 			<h1>
-				Project description
+				Workflow
 			</h1>
 			<p>
-				The general workflow is the following: user draws a digit and presses the button "Predict". Javascript encodes image into 64 bit encoded JPG URL, which is passed into Python. Image is decoded and processed by cv2, which tries to find separate objects in the image. Then model makes predictions for each object. These predictions are passed back into Javascript and it shows them on the page. 
+				The Flask app is rendered on the Heroku server. When the user draws a digit and selects "Predict", JavaScript encodes the canvas into a base 64 image, which is passed to Python.
+				In Python, the image is processed by CV2 and reshaped to a numpy array, which fits the input of the model.
+				The processed image is passed to the model, and the output is dumped into a JSON to pass back to the JavaScript code.
+				The JSON of the model prediction is then parsed back to HTML for the web page, and a descriptive report on the prediction is created.
 			</p>
 
 			<h2>
-				Drawing the digits
+				Base HTML
 			</h2>
 			<p>
-				Functions to draw on canvas are defined in <a href="https://github.com/Erlemar/digit-draw-predict/blob/master/static/draw.js">draw.js</a>. It is possible to draw with mouse on PC and with touches on mobile devices. Button "Clear" clears the canvas and hides unnecessary elements of interface. Pressing button "Predict" sends the data to python script (64 bit encoded JPG URL) with ajax request.
+				All pages inherit the <a href="https://github.com/turnerluke/digit_recog/blob/main/templates/base.html">base.html</a> file. This parent HTML file sets the favicon, the css styles, the bootstrapped navigation bar, and the footer.
+			</p>
+
+
+			<h2>
+				Drawing the Digits
+			</h2>
+			<p>
+				The HTML canvas interfaces with <a href="https://github.com/turnerluke/digit_recog/blob/main/static/draw.js">draw.js</a> to accept the user's mouse inputs into an array.
 			</p>
 
 			<h2>
-				Receiving the encoded image and predicting labels
+				Processing the Image
 			</h2>
 			<p>
-				The encoded image is passed into <a href="https://github.com/Erlemar/digit-draw-predict/blob/master/main.py">main.py</a>. It is decoded and is sent to  <a href="https://github.com/Erlemar/digit-draw-predict/blob/master/functions.py">functions.py</a>. Weights of CNN are loaded when the app is initialized, so predictions can be done quickly. The weights are kept in the app on Heroky.
-				Then the image is processed:
+				The drawn digit is passed to app.py, where it is passed to functions.py and preprocessed to fit the input of the LeNet-5 2.0 model.
+				The image is processed as follows:
+				<ul>
+					<li>Decode from base 64</li>
+					<li>Convert to a numpy array</li>
+					<li>Convert to black and white (remove 3rd dimension)</li>
+					<li>Resize to size (32, 32) with cv2</li>
+					<li>Scale to zero mean and unity standard deviation</li>
+					<li>Expand dimensions to (None, 32, 32, None)</li>
+				</ul>
 			</p>
-			<ul>
-				<li>cv2 is used to find separate contours = objects in image;</li>
-				<li>cv2 is used again to draw rectangles around each object;</li>
-                		<li>Image is cut into separate images by rectanges;</li>
-				<li>Each image is converted into Pytorch tensor with shape (1, 3, 32, 32);</li>
-			</ul>
-			
-			<p>After this CNN model makes prediction for each object, the result is either a number or '-' for non-digits.</p>
+
+
     		</div>
 	{% endblock %}
 	
-	
-
-</html>

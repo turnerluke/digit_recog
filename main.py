@@ -1,14 +1,9 @@
-
-import matplotlib.pyplot as plt
 import numpy as np
 from flask import Flask, render_template, request
-from flask_cors import CORS, cross_origin
-import base64
+from flask_cors import CORS
 from tensorflow import keras
-from PIL import Image
-import io
-import cv2
 
+from functions import preprocess_b64, create_figure
 import json
 
 app = Flask(__name__)
@@ -39,34 +34,20 @@ def models():
 @app.route('/hook2', methods=["GET", "POST", 'OPTIONS'])
 def predict():
     """
-	Decodes image and uses it to make prediction.
-	"""
+    Decodes image, makes prediction, saves figure of prediction output, passes predictions to draw.js
+    """
     if request.method == 'POST':
         image_b64 = request.values['imageBase64']
-        image_encoded = image_b64.split(',')[1]
-        image = base64.decodebytes(image_encoded.encode('utf-8'))
+        img = preprocess_b64(image_b64)
 
-        img = Image.open(io.BytesIO(image))
-        img = np.array(img)
-        img = np.mean(img, axis=2)
-        img = cv2.resize(img, (32, 32), interpolation=cv2.INTER_AREA)
+        output = model.predict(img)
+        preds = np.argsort(output)[0, ::-1]
 
-        #img.reshape(1, 32, 32, 1)
-        img = np.expand_dims(np.expand_dims(img, 0), 3)
+        fig_data = create_figure(output)
 
-        print(img.shape)
-
-        #plt.imshow(img)
-        #plt.show()
-
-        prediction = model.predict(img)
-        prediction = {
-            'answer': str(np.argmax(prediction)),
-            'small_predictions': ''.join(str([p for p in prediction]))
-        }
-        # TODO: THis output needs to match the original
-
-    return json.dumps(prediction)
+        output = {"pred" + str(i): str(preds[i]) for i in range(3)}
+        output["fig_data"] = fig_data
+    return json.dumps(output)
 
 
 if __name__ == '__main__':

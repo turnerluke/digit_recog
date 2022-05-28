@@ -8,69 +8,71 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{% block title %}{% endblock %}</title>
-	<!--<form action="{{ url_for('index_page') }}" method=post>-->
-    <link href="static/bootstrap.min.css" rel="stylesheet">
+    <!-- Adds the Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
+
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+
+
+    <link href="static/bootstrap.min.css" rel="stylesheet">
     <link href="static/small-business.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="static/style.css">
 
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ url_for('index_page') }}">
-                    <img src="/static/logo.jpg" alt="">
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{{ url_for('about') }}">About the project</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('internals') }}">Web App Internals</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('models') }}">Models</a>
-                    </li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ url_for('index_page') }}">Digit Recognizer</a>
         </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('about') }}">About the Project</a></li>
+            <li><a href="{{ url_for('internals') }}">Web App Internals</a></li>
+            <li><a href="{{ url_for('models') }}">Model</a></li>
+          </ul>
+
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
     </nav>
 
-      
+
       {% block content %}
       {% endblock %}
 
 
 
+        <hr>
         <footer>
-            <div class="row">
-                <div class="col-lg-12">
+            <div class="container">
+                <div>
                     <p>
-			<a href=https://github.com/turnerluke/digit_recog>
-				<img src=https://img.shields.io/badge/GitHub-View_on_GitHub-blue?logo=GitHub>
-			</a>
-			    
-			<a href=https://turnerluke.github.io/>
-       				<img src=https://img.shields.io/static/v1?label=&message=Portfolio&color=red&style=for-the-badge>
-    			</a>   
-			    
-		    </p>
+			            <a href=https://github.com/turnerluke/digit_recog>
+				            <img src=https://img.shields.io/badge/GitHub-View_This_Project_on_GitHub-blue?logo=GitHub>
+			            </a>
+
+			            <a href=https://turnerluke.github.io/>
+                            <img src=https://img.shields.io/badge/GitHub-View_My_Portfolio-red?logo=GitHub>
+                        </a>
+
+		            </p>
                 </div>
             </div>
         </footer>
 
-    </div>
     <script src="static/jquery.js"></script>
     <script src="static/bootstrap.min.js"></script>
 	<script src="static/draw.js"></script>

@@ -1,89 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+	{% block title %}
+		About The Project
+	{% endblock %}
 
-    <title>About the project</title>
-	<!--<form action="{{ url_for('index_page') }}" method=post>-->
-    <link href="static/bootstrap.min.css" rel="stylesheet">
+	{% block content %}
+		<div class="container">
+			<div>
+				<h2>Motivation</h2>
+				This project presented a unique opportunity to learn a wide variety of topics of interest. This project utilized:
+				<br>
+				<br>
+				<ul>
+					<li>Deep learning in Keras</li>
+					<li>Web development in Flask</li>
+					<li>HTML</li>
+					<li>css</li>
+					<li>Bootstrap</li>
+					<li>Heroku</li>
+				</ul>
+				While there are many ML projects that could be presented in a well-polished user-friendly web app, the interactivity of drawing digits to be predicted with a CNN model presents a much more interesting project.
+				<br>
+				<br>
+				A modern data scientist will likely have to interface with non-technical stakeholders in their careers. Doing so may present difficult opportunities to report a complex model without jargon-heavy presentations.
+				Because of this, interactive presentations such as this one present a user-friendly method of displaying a model.
+				The main page of this web app does not require jargon on CNN structure, loss functions, epochs, or anything of the sort.
+				It simply presents a canvas to draw an image, and reports some simple conclusions from the model output.
+				Doing so increases the accessibility to model performance metrics to those without data science backgrounds.
+				This web app could be presented to practically anyone, who can then judge the performance of the CNN by its ability to properly classify the digits they draw.
+			</div>
 
-    <link href="static/small-business.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="static/style.css">
+			<div>
+				<h2>Flask Web Development</h2>
 
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+				This project was constructed in <h ref="https://flask.palletsprojects.com/en/2.1.x/">Flask</h>, and utilizes HTML, CSS, and JavaScript.
+				While web development, markup languages, style sheet languages, and JavaScript are not critical skills for modern data scientists, I believe gaining skills in a wide variety of topics displays one's ability to learn and passion for technology.
 
-</head>
+			</div>
 
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ url_for('index_page') }}">
-                    <img src="/static/logo.jpg" alt="">
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{{ url_for('about') }}">About the project</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('internals') }}">Project description</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('models') }}">Models</a>
-                    </li>
-                </ul>
-            </div>
+
         </div>
-    </nav>
 
-	    <div class="container">	 
-			<div class="col-md-4"><h2>1. Motivation</h2>
-				I have completed the <a href="https://digits-draw-recognize.herokuapp.com/" target="_blank">first version of this project</a> in summer 2017 and since then wanted to create a better version. There were several possible improvements in my mind: using other frameworks, recognition of several digits and separating non-digits. Alas, I lacked skills and free time to do this. Finally at the end of 2018 an opportunity appeared: I was taking part in a Pytorch challenge course from Udacity and could do a side project. This app is that side project. It works using Pytorch and cv2.
-			</div>
-			<div class="col-md-4"><h2>2. Development</h2>
-				It was possible to use the old version of the app and make changes to it. Thanks to the app I had more than 6000 handwritten images collected, but I had to check their labels and make corrections when necessary. After this is was necessary to choose an approach to digit detection and separation of digits and non-digits. I have tried several approaches including SVM for classifying object into digits and non-digits. I contemplated using siamese networks for this and yolo for digit detection, but in the end it turned out that simpler approaches work good enough.
-			</div>
-			<div class="col-md-4"><h2>Model training</h2>
-				<img src = "/static/2.jpg" alt = "Model training" style="border: 1px solid #000000" width="95%"> </img>
-			</div>
-			<div class="col-md-4"><h2>3. Pytorch and cv2</h2>
-				My final solution looks like this: cv2 for image detection and CNN in Pytorch on 11 classes to make predictions. At first I use cv2 to find separate contours on the image and to draw bounding rectangles on them. This way I can separate all drawn object on the image and work with each of them. I have trained a CNN with 2 convolutional layers on 11 classes (10 digits and "other") with SGD optimizer and CosineAnnealingLR. It was somewhat tricky to train considering number of samples in "other" category was quite low. Still I achieved accuracy of ~89% on validation data.
-			</div>
-			<div class="col-md-4"><h2>4. Other things</h2>
-				I contemplated adding a possibility of training model on additional data, but dropped this idea - training on several digits could lead to overfitting. Maybe I'll retrain model manually once per month on newly acquired samples. One fun feature was added - showing number of predictions made since the app is active. Sadly apps on Heroku on free plan go to sleep after 30 minutes of inactivity.
-			</div>
-			<div class="col-md-4"><h2>Confusion matrix for validation</h2>
-				<img src = "/static/3.jpg" alt = "Confusion matrix" style="border: 1px solid #000000" width="95%"> </img>
-			</div>
+	{% endblock %}
 
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; <a href="https://github.com/Erlemar/digit-draw-predict">Github</a></p>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-    <script src="static/jquery.js"></script>
-    <script src="static/bootstrap.min.js"></script>
-	<script src="static/draw.js"></script>
-</body>
-
-</html>
