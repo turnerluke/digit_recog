@@ -208,22 +208,34 @@
                 <p>
                     This model achieved a final accuracy of 99.63% on the test set, after 30 epochs of training.
 
-                    <img src = "static/training.png" alt = "Training Progress" width = "80%">
+                    <img src = "static/training.png" alt = "Training Progress" width = "60%">
                     <br>
                     <b>Figure 2:</b> <i>Training and Validation Loss and Accuracy Versus Training Epoch</a></i>.
+
+                    <br>
 
                 </p>
 
                 <h3>Confusion Matrix</h3>
 
-                <img src = "/static/cm.png" alt = "Confusion Matrix LeNet-5 v2 on MNIST" width="80%"> </img>
+                <img src = "/static/cm.png" alt = "Confusion Matrix LeNet-5 v2 on MNIST" width="60%"> </img>
                 <br>
                 <b>Figure 3:</b> <i>Confusion Matrix on the MNIST Dataset</a></i>.
 
-
                 <br>
 
-                </ul>
+                <h3>Debugging</h3>
+
+                <p>
+                    If your digit sketches are not being properly predicted by the model, try drawing them to take up a majority of the space on the canvas.
+                    Please note, that LeNet-5 v2.0 is exceptional at recognizing the MNIST dataset, so to ensure a similar performance on your sketches, they should closely match the data.
+
+                    <img src = "/static/digits.png" alt = "MNIST Sample" width="60%">
+                    <br>
+                    <b>Figure 4:</b> <i>A Subset of the MNIST Dataset Digits</i>.
+                </p>
+
+
             </div>
         </div>
 

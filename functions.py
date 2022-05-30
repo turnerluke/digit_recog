@@ -21,7 +21,7 @@ def preprocess_b64(b64):
     img = np.mean(img, axis=2)  # To B&W image
     img = cv2.resize(img, (32, 32), interpolation=cv2.INTER_AREA)  # To (32, 32) for model input
 
-    # 1) 0 -> 255
+    # 1) Fix draw.js output: 0 -> 255
     img[img == 0] = 255
     # 2) Round numbers (canvas returns 254.999 for some reason)
     img = img.round()
@@ -32,8 +32,9 @@ def preprocess_b64(b64):
     # 5) Standard scale vals (vals = (vals - vals_mean) / std_vals
     img = (img - img.mean()) / img.std()
 
-    img = np.expand_dims(np.expand_dims(img, 0), 3)  # To (None, 32, 32, None)
+    img = np.expand_dims(np.expand_dims(img, 0), 3)  # Reshape to (None, 32, 32, None)
     return img
+
 
 def create_figure(output):
     """

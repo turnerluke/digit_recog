@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-
 	{% block title %}
 		Web App Internals
 	{% endblock %}
@@ -22,7 +21,8 @@
 				Base HTML
 			</h2>
 			<p>
-				All pages inherit the <a href="https://github.com/turnerluke/digit_recog/blob/main/templates/base.html">base.html</a> file. This parent HTML file sets the favicon, the css styles, the bootstrapped navigation bar, and the footer.
+				All pages inherit the <a href="https://github.com/turnerluke/digit_recog/blob/main/templates/base.html">base.html</a> file.
+				This parent HTML file sets the favicon, the css styles, the bootstrapped navigation bar, and the footer.
 			</p>
 
 
@@ -37,7 +37,7 @@
 				Processing the Image
 			</h2>
 			<p>
-				The drawn digit is passed to app.py, where it is passed to functions.py and preprocessed to fit the input of the LeNet-5 2.0 model.
+				The drawn digit is passed to <a href=h"ttps://github.com/turnerluke/digit_recog/blob/main/app.py">app.py</a>, where it is passed to <a href="https://github.com/turnerluke/digit_recog/blob/main/functions.py">functions.py</a> and preprocessed to fit the input of the LeNet-5 2.0 model.
 				The image is processed as follows:
 				<ul>
 					<li>Decode from base 64</li>
@@ -49,7 +49,25 @@
 				</ul>
 			</p>
 
+			<h2>
+				Model Prediction
+			</h2>
+			<p>
+				The CNN, which was created in Keras, conveniently accepts the image array with <code>model.predict(arr)</code>. The output of the model is de-one-hot encoded with <code>np.argsort(output)</code>, and the prediction out puts are calculated from this output.
+			</p>
+
+			<h2>
+				Prediction Visualizations
+			</h2>
+			<p>
+				The web-app presents the top prediction of the model, and a table of the top three predictions, both as HTML elements.
+				Lastly, a bar graph of the model outputs * 100% is displayed.
+				This graph is created by passing the model output to <a href="https://github.com/turnerluke/digit_recog/blob/main/functions.py">functions.py</a>, where a seaborn barchart is plotted on a matplotlib figure.
+				The figure is encoded to base 64, and returned to <a href=h"ttps://github.com/turnerluke/digit_recog/blob/main/app.py">app.py</a>, and added to the json of the predictions.
+				These deliverables from the model output are passed to <a href="https://github.com/turnerluke/digit_recog/blob/main/static/draw.js">draw.js</a> where they are parsed into <a href="https://github.com/turnerluke/digit_recog/blob/main/templates/index.html">index.html</a>, the main webpage.
+			</p>
 
     		</div>
+
 	{% endblock %}
 	
