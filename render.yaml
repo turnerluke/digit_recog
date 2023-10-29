@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: digit-recog
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: PYTHON_VERSION
+        value: 3.11.4
+      - key: POETRY_VERSION
+        value: 1.5.1
+      - key: RENDER
+        value: true
