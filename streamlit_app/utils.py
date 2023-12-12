@@ -32,16 +32,13 @@ def create_figure(output):
     palette = sns.color_palette("Blues_d", len(preds))
     rank = preds.argsort().argsort()  # http://stackoverflow.com/a/6266510/1628638
     palette = [palette[r] for r in rank]
+
     # Make barplot of the certainties
     fig, ax = plt.subplots()
     sns.barplot(x=np.arange(10), y=output[0, :] * 100, ax=ax, palette=palette)
     ax.set_ylabel("Confidence (%)")
 
-    # buf = io.BytesIO()
-    # fig.savefig(buf, format="png")
-    #
-    # fig_data = base64.b64encode(buf.getbuffer()).decode("ascii")
-
+    # Get the figure as a numpy array
     canvas = FigureCanvasAgg(fig)
     canvas.draw()
     figure_array = np.array(canvas.renderer.buffer_rgba())
