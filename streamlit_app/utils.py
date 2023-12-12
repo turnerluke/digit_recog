@@ -1,35 +1,20 @@
-import base64
 import numpy as np
 import cv2
-from PIL import Image
-import io
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg
 
 
-def preprocess_b64(b64):
-    """
-    Preprocesses a base 64 image, returns numpy array ready to pass to model
+def preprocess_image(img: np.ndarray) -> np.ndarray:
 
-    """
-
-    image_encoded = b64.split(',')[1]
-    image = base64.decodebytes(image_encoded.encode('utf-8'))
-
-    img = Image.open(io.BytesIO(image))
-    img = np.array(img)
-    img = np.mean(img, axis=2)  # To B&W image
+    img = np.mean(img, axis=2)  # To B&W image (2 dimensional)
     img = cv2.resize(img, (32, 32), interpolation=cv2.INTER_AREA)  # To (32, 32) for model input
 
-    # 1) Fix draw.js output: 0 -> 255
-    img[img == 0] = 255
-    # 2) Round numbers (canvas returns 254.999 for some reason)
-    img = img.round()
-    # 3) Scale vals from 0 -> 1
+    # Scale vals from 0 -> 1
     img = (img - img.min()) / (img.max() - img.min())
-    # 4) Inverse vals (vals = 1 - vals)
+    # Inverse vals (vals = 1 - vals)
     img = 1 - img
-    # 5) Standard scale vals (vals = (vals - vals_mean) / std_vals
+    # Standard scale vals (vals = (vals - vals_mean) / std_vals
     img = (img - img.mean()) / img.std()
 
     img = np.expand_dims(np.expand_dims(img, 0), 3)  # Reshape to (None, 32, 32, None)
@@ -52,9 +37,13 @@ def create_figure(output):
     sns.barplot(x=np.arange(10), y=output[0, :] * 100, ax=ax, palette=palette)
     ax.set_ylabel("Confidence (%)")
 
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png")
+    # buf = io.BytesIO()
+    # fig.savefig(buf, format="png")
+    #
+    # fig_data = base64.b64encode(buf.getbuffer()).decode("ascii")
 
-    fig_data = base64.b64encode(buf.getbuffer()).decode("ascii")
+    canvas = FigureCanvasAgg(fig)
+    canvas.draw()
+    figure_array = np.array(canvas.renderer.buffer_rgba())
 
-    return fig_data
+    return figure_array
