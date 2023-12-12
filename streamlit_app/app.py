@@ -20,14 +20,10 @@ model = keras.models.load_model('models/le_net5_v2.h5')
 
 
 def main():
-    if "button_id" not in st.session_state:
-        st.session_state["button_id"] = ""
-    if "color_to_label" not in st.session_state:
-        st.session_state["color_to_label"] = {}
     PAGES = {
-        "App": app,
-        "Model": model,
-        "Streamlit App": streamlit_app,
+        "App": app_page,
+        "Model": model_page,
+        "Streamlit App": streamlit_app_page,
     }
     page = st.sidebar.selectbox("Page:", options=list(PAGES.keys()))
     PAGES[page]()
@@ -40,7 +36,7 @@ def main():
         )
 
 
-def app():
+def app_page():
     drawing_mode = "freedraw"
     stroke_width = 20
 
@@ -49,7 +45,7 @@ def app():
     realtime_update = True
 
     canvas_result = st_canvas(
-        fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
+        fill_color="rgba(255, 0, 0, 0)",
         stroke_width=stroke_width,
         stroke_color=stroke_color,
         background_color=bg_color,
@@ -73,14 +69,15 @@ def app():
             preds = np.argsort(output)[0, ::-1]
 
             # Display the prediction
-            st.subheader(f"Prediction: {preds[0]}")
+            st.header(f"Prediction: {preds[0]}")
 
             # Create certainties bar chart
             figure = create_figure(output)
+            st.subheader("Model Certainties:")
             st.image(figure)
 
 
-def model():
+def model_page():
     st.markdown(
         """
         # Model
@@ -194,7 +191,7 @@ def model():
     st.markdown('**Figure 4:** Example of digits that are recognized well by the model')
 
 
-def streamlit_app():
+def streamlit_app_page():
     st.markdown(
         """
         # Streamlit App
