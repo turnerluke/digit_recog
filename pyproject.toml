@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11,<3.12"
 license = { file = "LICENSE" }
 dependencies = [
-    "numpy==1.26.2",
+    "numpy==1.26.4",
     "pandas",
     "altair",
     "streamlit>=1.49.0",
@@ -21,7 +21,7 @@ dev = [
     "pytest-cov>=5",
     "ruff>=0.6",
     "ty>=0.0.1a1",
-    "scipy>=1.11",  # required by Keras image augmentation in train.py
+    "scipy>=1.17.1",  # required by Keras image augmentation in train.py
 ]
 
 [tool.pytest.ini_options]
