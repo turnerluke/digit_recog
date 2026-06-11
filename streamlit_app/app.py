@@ -178,11 +178,11 @@ def model_page():
 
     st.markdown(
         """
-        # Debugging
-        
-        If your digit sketches are not being properly predicted by the model, try drawing them to take up a majority of 
-        the space on the canvas. Please note, that LeNet-5 v2.0 is exceptional at recognizing the MNIST dataset, so to 
-        ensure a similar performance on your sketches, they should closely match the data.
+        # Tips
+
+        Each drawing is cropped, centered, and size-normalized to match the MNIST
+        data before prediction, so you can draw a digit at any size or position on
+        the canvas. For best results, draw a single clear digit with a solid stroke.
         """
     )
     st.image("images/digits.png")

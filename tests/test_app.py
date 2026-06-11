@@ -1,12 +1,15 @@
 from pathlib import Path
 
+import cv2
 import numpy as np
 import pytest
 from tensorflow import keras
 
 from utils import create_certainty_chart, preprocess_image
 
-MODEL_PATH = Path(__file__).resolve().parent.parent / "models" / "le_net5_v2.keras"
+ROOT = Path(__file__).resolve().parent.parent
+MODEL_PATH = ROOT / "models" / "le_net5_v2.keras"
+FIXTURES = sorted((Path(__file__).parent / "fixtures").glob("digit_*.png"))
 
 
 @pytest.fixture(scope="session")
@@ -47,3 +50,13 @@ def test_certainty_chart_has_ten_bars():
     (dataset,) = spec["datasets"].values()
     assert spec["mark"]["type"] == "bar"
     assert len(dataset) == 10
+
+
+@pytest.mark.parametrize("fixture", FIXTURES, ids=lambda p: p.stem)
+def test_classifies_canvas_fixtures(model, fixture):
+    """End-to-end golden test: digits drawn at varied sizes/positions must be
+    classified correctly. Guards against train/serve preprocessing skew."""
+    expected = int(fixture.stem.split("_")[1])
+    rgba = cv2.imread(str(fixture), cv2.IMREAD_UNCHANGED)
+    prediction = int(model.predict(preprocess_image(rgba), verbose=0).argmax())
+    assert prediction == expected

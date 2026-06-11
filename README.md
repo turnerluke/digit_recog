@@ -89,10 +89,10 @@ The model achieves a final accuracy of **99.63%** on the MNIST test set.
 
 ***Figure 3:** Confusion matrix on the MNIST test set.*
 
-## Tips for good predictions
+## Preprocessing
 
-If your sketches are not predicted well, draw the digit so it fills a majority of the canvas. LeNet-5 v2.0 performs best on inputs that closely resemble the MNIST data.
+To match the data the model was trained on, each drawing is preprocessed the same way MNIST digits are: the stroke is isolated and cropped, size-normalized into a 20px box centered within a 28x28 frame by its center of mass, padded to 32x32, and standardized with the training set's mean and standard deviation (`models/normalization.json`). Because the digit is recentered and rescaled automatically, you can draw it at any size or position on the canvas.
 
 <img src="images/digits.png" alt="Example digits the model recognizes well">
 
-***Figure 4:** Examples of digits the model recognizes well.*
+***Figure 4:** Examples of MNIST digits the model recognizes well.*

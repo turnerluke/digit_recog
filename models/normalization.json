@@ -1,0 +1,5 @@
+{
+  "mean": 25.509416,
+  "std": 70.180423,
+  "_source": "MNIST training set, reshaped to 28x28, padded 2px to 32x32, global mean/std (matches LeNet_5_train.ipynb)."
+}
