@@ -10,12 +10,17 @@ def preprocess_image(img: np.ndarray) -> np.ndarray:
     img = np.mean(img, axis=2)  # To B&W image (2 dimensional)
     img = cv2.resize(img, (32, 32), interpolation=cv2.INTER_AREA)  # To (32, 32) for model input
 
-    # Scale vals from 0 -> 1
-    img = (img - img.min()) / (img.max() - img.min())
+    # Scale vals from 0 -> 1, guarding against a uniform (blank) canvas
+    value_range = img.max() - img.min()
+    if value_range == 0:
+        return np.zeros((1, 32, 32, 1))
+    img = (img - img.min()) / value_range
     # Inverse vals (vals = 1 - vals)
     img = 1 - img
     # Standard scale vals (vals = (vals - vals_mean) / std_vals
-    img = (img - img.mean()) / img.std()
+    std = img.std()
+    if std > 0:
+        img = (img - img.mean()) / std
 
     img = np.expand_dims(np.expand_dims(img, 0), 3)  # Reshape to (None, 32, 32, None)
     return img
@@ -23,7 +28,7 @@ def preprocess_image(img: np.ndarray) -> np.ndarray:
 
 def create_figure(output):
     """
-    Takes the model output and returns a base64 encoded image of a barchart of the model output.
+    Takes the model output and returns an RGBA numpy array of a bar chart of the model certainties.
 
     """
     preds = np.argsort(output)[0, ::-1]
@@ -42,5 +47,7 @@ def create_figure(output):
     canvas = FigureCanvasAgg(fig)
     canvas.draw()
     figure_array = np.array(canvas.renderer.buffer_rgba())
+
+    plt.close(fig)  # Release the figure to avoid leaking memory across predictions
 
     return figure_array
