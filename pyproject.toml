@@ -7,12 +7,12 @@ requires-python = ">=3.11,<3.12"
 license = { file = "LICENSE" }
 dependencies = [
     "numpy==1.26.2",
+    "pandas",
+    "altair",
     "streamlit>=1.49.0",
     "streamlit-drawable-canvas-fix==0.9.8",
     "tensorflow==2.15.0.post1",
     "opencv-python-headless==4.8.1.78",
-    "seaborn==0.13.0",
-    "matplotlib==3.8.2",
 ]
 
 [tool.uv]

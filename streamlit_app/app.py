@@ -3,9 +3,15 @@ import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 from tensorflow import keras
 
-from utils import preprocess_image, create_figure
+from utils import preprocess_image, create_certainty_chart
 
-model = keras.models.load_model('models/le_net5_v2.h5')
+
+@st.cache_resource
+def load_model():
+    return keras.models.load_model('models/le_net5_v2.h5')
+
+
+model = load_model()
 
 
 def main():
@@ -59,11 +65,11 @@ def app_page():
 
             # Display the prediction
             st.header(f"Prediction: {preds[0]}")
+            st.caption(f"{output[0, preds[0]] * 100:.1f}% confidence")
 
-            # Create certainties bar chart
-            figure = create_figure(output)
-            st.subheader("Model Certainties:")
-            st.image(figure)
+            # Per-digit certainties
+            st.subheader("Model certainties")
+            st.altair_chart(create_certainty_chart(output), use_container_width=True)
 
 
 def model_page():

@@ -1,8 +1,7 @@
 import numpy as np
 import cv2
-import seaborn as sns
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_agg import FigureCanvasAgg
+import altair as alt
+import pandas as pd
 
 
 def preprocess_image(img: np.ndarray) -> np.ndarray:
@@ -26,28 +25,38 @@ def preprocess_image(img: np.ndarray) -> np.ndarray:
     return img
 
 
-def create_figure(output):
+def create_certainty_chart(output: np.ndarray) -> alt.Chart:
     """
-    Takes the model output and returns an RGBA numpy array of a bar chart of the model certainties.
-
+    Builds an Altair bar chart of the model's per-digit confidence, with the
+    predicted digit highlighted.
     """
-    preds = np.argsort(output)[0, ::-1]
-    # Plot the model output
-    # Get a color palette, with larger values being darker
-    palette = sns.color_palette("Blues_d", len(preds))
-    rank = preds.argsort().argsort()  # http://stackoverflow.com/a/6266510/1628638
-    palette = [palette[r] for r in rank]
+    confidence = output[0] * 100
+    predicted = int(confidence.argmax())
 
-    # Make barplot of the certainties
-    fig, ax = plt.subplots()
-    sns.barplot(x=np.arange(10), y=output[0, :] * 100, ax=ax, palette=palette)
-    ax.set_ylabel("Confidence (%)")
+    data = pd.DataFrame({
+        "digit": [str(i) for i in range(10)],
+        "confidence": confidence,
+        "predicted": [i == predicted for i in range(10)],
+    })
 
-    # Get the figure as a numpy array
-    canvas = FigureCanvasAgg(fig)
-    canvas.draw()
-    figure_array = np.array(canvas.renderer.buffer_rgba())
-
-    plt.close(fig)  # Release the figure to avoid leaking memory across predictions
-
-    return figure_array
+    return (
+        alt.Chart(data)
+        .mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4)
+        .encode(
+            x=alt.X("digit:N", title="Digit", sort=None),
+            y=alt.Y(
+                "confidence:Q",
+                title="Confidence (%)",
+                scale=alt.Scale(domain=[0, 100]),
+            ),
+            color=alt.condition(
+                alt.datum.predicted,
+                alt.value("#ff4b4b"),  # Streamlit accent for the prediction
+                alt.value("#83c9ff"),  # muted blue for the rest
+            ),
+            tooltip=[
+                alt.Tooltip("digit:N", title="Digit"),
+                alt.Tooltip("confidence:Q", title="Confidence (%)", format=".2f"),
+            ],
+        )
+    )
