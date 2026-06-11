@@ -5,24 +5,39 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
         with:
+          version: "0.11.6"
           python-version: "3.11"
+          enable-cache: true
 
       - name: Install dependencies
         run: uv sync
 
+      - name: Verify lockfile and requirements are in sync
+        run: |
+          uv lock --check
+          uv export --format requirements-txt --no-hashes --no-annotate --no-header --no-dev --no-emit-project -o requirements.txt
+          git diff --exit-code requirements.txt
+
       - name: Lint
         run: |
-          uv run ruff format --check streamlit_app tests
-          uv run ruff check streamlit_app tests
+          uv run ruff format --check streamlit_app tests train.py
+          uv run ruff check streamlit_app tests train.py
 
       - name: Test
         run: uv run pytest -q
