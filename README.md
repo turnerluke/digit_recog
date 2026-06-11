@@ -75,7 +75,17 @@ The training notebook is available here:
 
 ## Training
 
-The model was trained for 30 epochs using categorical cross-entropy loss, with accuracy as the performance metric.
+The model was trained for 30 epochs with the Adam optimizer and categorical cross-entropy loss, using `ReduceLROnPlateau` to decay the learning rate, and data augmentation (rotation, zoom, and shifts) to reduce overfitting.
+
+### Reproducing the model
+
+`train.py` regenerates the model artifact and its serving constants from scratch:
+
+```bash
+uv run python train.py
+```
+
+It writes the model to `models/le_net5_v2.keras`, the normalization constants to `models/normalization.json`, and the run's metrics to `models/metrics.json`. A full run trains on CPU in a couple of hours; for a quick check, run a subset with `--epochs 1 --limit 2000 --output /tmp/smoke.keras` (this leaves the committed constants untouched).
 
 ## Performance
 
