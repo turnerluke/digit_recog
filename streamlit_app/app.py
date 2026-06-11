@@ -116,7 +116,7 @@ def model_page():
         """
     )
 
-    st.image('images/LeNet 5 v2 Vis.png')
+    st.image('images/LeNet_5_v2_Vis.png')
     st.markdown('**Figure 1:** LeNet-5 CNN Structure (Created with [NN-SVG](http://alexlenail.me/NN-SVG/LeNet.html))')
 
     st.markdown(

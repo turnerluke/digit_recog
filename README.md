@@ -1,103 +1,98 @@
-# digit_recog
-Web app to recognize digits using Keras ML model, trained on the mnist dataset.
+# Drawn Digit Recognition
 
-This web app deploys a wide variety of technologies, including Keras, Flask, HTML, CSS, Bootstrap, and Heroku.
+A web app that recognizes hand-drawn digits using a Keras convolutional neural network trained on the MNIST dataset. Draw a digit on the canvas and the model returns its prediction along with a bar chart of its confidence across all ten classes.
 
-# Data
+Built with [Streamlit](https://streamlit.io/), TensorFlow/Keras, OpenCV, and Matplotlib, and deployed on [Streamlit Community Cloud](https://streamlit.io/cloud).
 
-The Modified National Institute of Standards and Technology (MNIST) dataset of handwritten digits was used as the training and validation datasets for this model. The dataset was obtained from the keras.datasets module as follows:
+## Running locally
 
+This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management.
+
+```bash
+uv sync
+uv run streamlit run streamlit_app/app.py
 ```
+
+Then open the URL Streamlit prints (default <http://localhost:8501>).
+
+## Data
+
+The model is trained and validated on the Modified National Institute of Standards and Technology (MNIST) dataset of handwritten digits, obtained from `keras.datasets`:
+
+```python
 (X_train, y_train), (X_test, y_test) = keras.datasets.mnist.load_data()
 ```
 
-This dataset consists of 60,000 training and 10,000 testing digits and their corresponding labels.
+The dataset consists of 60,000 training and 10,000 testing digits with their corresponding labels. Inputs are standardized to zero mean and unit standard deviation.
 
-The data is normalized to have a mean value of 0 and standard deviaiton of 1.
+Data augmentation is applied during training to reduce overfitting, using the following random operations:
 
-Data augmentation is performed the prevent overfitting of the dataset, using the following  random operations:
 - 10 degree rotations
 - 10% zoom
 - 10% horizontal shifts
 - 10% vertical shifts
 
+## Model
 
-# Model
+The model is the LeNet-5 v2.0 convolutional neural network (CNN), originally presented in [LeCun et al., *Gradient-Based Learning Applied to Document Recognition*](http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf).
 
-The model used is the LeNet-5 v2.0 convolutional neural network (CNN), originally presented in [LeCun et al., Gradient-Based Learning Applied to Document Recognition](http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf).
-
-The model was implemented in Keras, as shown here:
+The training notebook is available here:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/turnerluke/digit_recog/blob/main/models/LeNet_5_train.ipynb)
 
-The structure of this CNN is as follows:
+<img src="images/LeNet_5_v2_Vis.png" alt="LeNet-5 v2 architecture visualization">
 
-```
-_________________________________________________________________
- Layer (type)                Output Shape              Param #   
-=================================================================
- convolution_1 (Conv2D)      (None, 28, 28, 32)        832       
-                                                                 
- convolution_2 (Conv2D)      (None, 24, 24, 32)        25600     
-                                                                 
- batchnorm_1 (BatchNormaliz  (None, 24, 24, 32)        128       
- ation)                                                           
-                                                                 
- activation_25 (Activation)  (None, 24, 24, 32)        0         
-                                                                 
- max_pool_1 (MaxPooling2D)   (None, 12, 12, 32)        0         
-                                                                 
- dropout_1 (Dropout)         (None, 12, 12, 32)        0         
-                                                                 
- convolution_3 (Conv2D)      (None, 10, 10, 64)        18496     
-                                                                 
- convolution_4 (Conv2D)      (None, 8, 8, 64)          36864     
-                                                                 
- batchnorm_2 (BatchNormaliz  (None, 8, 8, 64)          256       
- ation)                                                           
-                                                                 
- activation_26 (Activation)  (None, 8, 8, 64)          0         
-                                                                 
- max_pool_2 (MaxPooling2D)   (None, 4, 4, 64)          0         
-                                                                 
- dropout_2 (Dropout)         (None, 4, 4, 64)          0         
-                                                                 
- flatten (Flatten)           (None, 1024)              0         
-                                                                 
- fully_connected_1 (Dense)   (None, 256)               262144    
-                                                                 
- batchnorm_3 (BatchNormaliz  (None, 256)               1024      
- ation)                                                           
-                                                                 
- activation_27 (Activation)  (None, 256)               0         
-                                                                 
- fully_connected_2 (Dense)   (None, 128)               32768     
-                                                                 
- batchnorm_4 (BatchNormaliz  (None, 128)               512       
- ation)                                                           
-                                                                 
- activation_28 (Activation)  (None, 128)               0         
-                                                                 
- fully_connected_3 (Dense)   (None, 84)                10752     
-                                                                 
- batchnorm_5 (BatchNormaliz  (None, 84)                336       
- ation)                                                           
-                                                                 
- activation_29 (Activation)  (None, 84)                0         
-                                                                 
- dropout_3 (Dropout)         (None, 84)                0         
-                                                                 
- output (Dense)              (None, 10)                850       
-                                                                 
-=================================================================
-```
+***Figure 1:** Model CNN visualization (created with [NN-SVG](http://alexlenail.me/NN-SVG/LeNet.html)).*
 
-<img src="/images/LeNet 5 v2 Vis.png">
+### Architecture
 
-**Figure 1:** *Model CNN Visualization.*
+| Layer (type)                      | Output Shape       | Parameters |
+| --------------------------------- | ------------------ | ---------- |
+| Convolution_1 (Conv2D)            | (None, 28, 28, 32) | 832        |
+| Convolution_2 (Conv2D)            | (None, 24, 24, 32) | 25,600     |
+| Batchnorm_1 (BatchNormalization)  | (None, 24, 24, 32) | 128        |
+| Activation_25 (Activation)        | (None, 24, 24, 32) | 0          |
+| Max_pool_1 (MaxPooling2D)         | (None, 12, 12, 32) | 0          |
+| Dropout_1 (Dropout)               | (None, 12, 12, 32) | 0          |
+| Convolution_3 (Conv2D)            | (None, 10, 10, 64) | 18,496     |
+| Convolution_4 (Conv2D)            | (None, 8, 8, 64)   | 36,864     |
+| Batchnorm_2 (BatchNormalization)  | (None, 8, 8, 64)   | 256        |
+| Activation_26 (Activation)        | (None, 8, 8, 64)   | 0          |
+| Max_pool_2 (MaxPooling2D)         | (None, 4, 4, 64)   | 0          |
+| Dropout_2 (Dropout)               | (None, 4, 4, 64)   | 0          |
+| Flatten (Flatten)                 | (None, 1024)       | 0          |
+| Fully_connected_1 (Dense)         | (None, 256)        | 262,144    |
+| Batchnorm_3 (BatchNormalization)  | (None, 256)        | 1,024      |
+| Activation_27 (Activation)        | (None, 256)        | 0          |
+| Fully_connected_2 (Dense)         | (None, 128)        | 32,768     |
+| Batchnorm_4 (BatchNormalization)  | (None, 128)        | 512        |
+| Activation_28 (Activation)        | (None, 128)        | 0          |
+| Fully_connected_3 (Dense)         | (None, 84)         | 10,752     |
+| Batchnorm_5 (BatchNormalization)  | (None, 84)         | 336        |
+| Activation_29 (Activation)        | (None, 84)         | 0          |
+| Dropout_3 (Dropout)               | (None, 84)         | 0          |
+| Output (Dense)                    | (None, 10)         | 850        |
 
-# Application
+## Training
 
-The web app presents a clean user interface containing a canvas to draw the digits, a clear button, a predict button, a descriptive prediciton, and some miscellaneous information about the project.
+The model was trained for 30 epochs using categorical cross-entropy loss, with accuracy as the performance metric.
 
-The website was constructed in [Flask](https://flask.palletsprojects.com/en/2.1.x/f).
+## Performance
+
+The model achieves a final accuracy of **99.63%** on the MNIST test set.
+
+<img src="images/training.png" alt="Training and validation loss and accuracy">
+
+***Figure 2:** Training and validation loss and accuracy versus epoch.*
+
+<img src="images/cm.png" alt="Confusion matrix">
+
+***Figure 3:** Confusion matrix on the MNIST test set.*
+
+## Tips for good predictions
+
+If your sketches are not predicted well, draw the digit so it fills a majority of the canvas. LeNet-5 v2.0 performs best on inputs that closely resemble the MNIST data.
+
+<img src="images/digits.png" alt="Example digits the model recognizes well">
+
+***Figure 4:** Examples of digits the model recognizes well.*
