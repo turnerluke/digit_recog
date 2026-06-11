@@ -39,5 +39,8 @@ jobs:
           uv run ruff format --check digit_recog streamlit_app tests train.py
           uv run ruff check digit_recog streamlit_app tests train.py
 
+      - name: Type check
+        run: uv run ty check digit_recog streamlit_app tests train.py
+
       - name: Test
         run: uv run pytest -q

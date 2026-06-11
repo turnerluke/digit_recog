@@ -17,11 +17,11 @@ import argparse
 import json
 from pathlib import Path
 
+import keras
 import numpy as np
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.callbacks import ReduceLROnPlateau
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from keras.callbacks import ReduceLROnPlateau
+from keras.preprocessing.image import ImageDataGenerator
 
 from digit_recog.model import build_model
 

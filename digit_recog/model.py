@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from tensorflow import keras
-from tensorflow.keras.layers import (
+import keras
+from keras.layers import (
     Activation,
     BatchNormalization,
     Conv2D,
@@ -10,8 +10,8 @@ from tensorflow.keras.layers import (
     Flatten,
     MaxPooling2D,
 )
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.regularizers import l2
+from keras.models import Sequential
+from keras.regularizers import l2
 
 DEFAULT_MODEL_PATH = (
     Path(__file__).resolve().parent.parent / "models" / "le_net5_v2.keras"
