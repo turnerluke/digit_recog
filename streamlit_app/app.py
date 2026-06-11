@@ -1,17 +1,25 @@
-import numpy as np
-import streamlit as st
-from streamlit_drawable_canvas import st_canvas
-from tensorflow import keras
+import sys
+from pathlib import Path
 
-from utils import preprocess_image, create_certainty_chart
+# Streamlit runs this script with its own directory on sys.path rather than the
+# repository root, so make the digit_recog package importable when deployed.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+import numpy as np  # noqa: E402
+import streamlit as st  # noqa: E402
+from streamlit_drawable_canvas import st_canvas  # noqa: E402
+
+from digit_recog.model import load_model  # noqa: E402
+from digit_recog.preprocessing import preprocess_image  # noqa: E402
+from digit_recog.viz import create_certainty_chart  # noqa: E402
 
 
 @st.cache_resource
-def load_model():
-    return keras.models.load_model("models/le_net5_v2.keras")
+def get_model():
+    return load_model()
 
 
-model = load_model()
+model = get_model()
 
 
 def main():

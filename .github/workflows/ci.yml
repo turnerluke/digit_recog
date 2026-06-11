@@ -36,8 +36,8 @@ jobs:
 
       - name: Lint
         run: |
-          uv run ruff format --check streamlit_app tests train.py
-          uv run ruff check streamlit_app tests train.py
+          uv run ruff format --check digit_recog streamlit_app tests train.py
+          uv run ruff check digit_recog streamlit_app tests train.py
 
       - name: Test
         run: uv run pytest -q

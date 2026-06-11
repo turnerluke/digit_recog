@@ -24,9 +24,9 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-pythonpath = ["streamlit_app"]
+pythonpath = ["."]
 testpaths = ["tests"]
-addopts = "--cov=utils --cov-report=term-missing --cov-fail-under=90"
+addopts = "--cov=digit_recog --cov-report=term-missing --cov-fail-under=90"
 
 [tool.ruff]
 extend-exclude = ["models"]

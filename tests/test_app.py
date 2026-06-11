@@ -3,18 +3,23 @@ from pathlib import Path
 import cv2
 import numpy as np
 import pytest
-from tensorflow import keras
 
-from utils import create_certainty_chart, preprocess_image
+from digit_recog.model import build_model, load_model
+from digit_recog.preprocessing import preprocess_image
+from digit_recog.viz import create_certainty_chart
 
-ROOT = Path(__file__).resolve().parent.parent
-MODEL_PATH = ROOT / "models" / "le_net5_v2.keras"
 FIXTURES = sorted((Path(__file__).parent / "fixtures").glob("digit_*.png"))
 
 
 @pytest.fixture(scope="session")
 def model():
-    return keras.models.load_model(MODEL_PATH)
+    return load_model()
+
+
+def test_build_model_has_expected_io_shape():
+    net = build_model()
+    assert net.input_shape == (None, 32, 32, 1)
+    assert net.output_shape == (None, 10)
 
 
 def _canvas(fill_blob: bool) -> np.ndarray:

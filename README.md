@@ -20,6 +20,20 @@ uv run streamlit run streamlit_app/app.py
 
 Then open the URL Streamlit prints (default <http://localhost:8501>).
 
+## Project structure
+
+The model logic lives in a `digit_recog` package, independent of the UI and training entry points:
+
+```
+digit_recog/        # importable, testable core
+  preprocessing.py  # canvas -> model-ready tensor (MNIST normalization)
+  model.py          # LeNet-5 v2 architecture and loader
+  viz.py            # confidence bar chart
+streamlit_app/app.py  # thin Streamlit UI
+train.py              # reproducible training entry point
+tests/                # pytest suite + canvas fixtures
+```
+
 ## Data
 
 The model is trained and validated on the Modified National Institute of Standards and Technology (MNIST) dataset of handwritten digits, obtained from `keras.datasets`:
