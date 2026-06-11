@@ -1,8 +1,13 @@
 # Drawn Digit Recognition
 
+[![CI](https://github.com/turnerluke/digit_recog/actions/workflows/ci.yml/badge.svg)](https://github.com/turnerluke/digit_recog/actions/workflows/ci.yml)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A web app that recognizes hand-drawn digits using a Keras convolutional neural network trained on the MNIST dataset. Draw a digit on the canvas and the model returns its prediction along with a bar chart of its confidence across all ten classes.
 
-Built with [Streamlit](https://streamlit.io/), TensorFlow/Keras, OpenCV, and Matplotlib, and deployed on [Streamlit Community Cloud](https://streamlit.io/cloud).
+Built with [Streamlit](https://streamlit.io/), TensorFlow/Keras, OpenCV, and [Altair](https://altair-viz.github.io/), and deployed on [Streamlit Community Cloud](https://streamlit.io/cloud).
 
 ## Running locally
 
