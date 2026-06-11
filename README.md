@@ -34,6 +34,10 @@ train.py              # reproducible training entry point
 tests/                # pytest suite + canvas fixtures
 ```
 
+## Dependencies
+
+The TensorFlow 2.15 stack (and `numpy` 1.x) is pinned to the trained model artifact: the saved `.keras` model loads against this version, and the training pipeline relies on Keras 2 APIs. Moving to a newer TensorFlow/Keras 3 release would require retraining and re-saving the model, so these packages are intentionally held back and excluded from automated dependency updates. The security surface is small — the app loads its own trusted model and runs inference on fixed-size images, with no untrusted-model loading or web-facing TensorFlow serving. All other dependencies are kept current via Dependabot.
+
 ## Data
 
 The model is trained and validated on the Modified National Institute of Standards and Technology (MNIST) dataset of handwritten digits, obtained from `keras.datasets`:
