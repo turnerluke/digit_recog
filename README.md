@@ -1,6 +1,6 @@
 # Drawn Digit Recognition
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://digit-recog.streamlit.app/)
+[![Open in Streamlit](https://img.shields.io/badge/Open_in-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://digit-recog.streamlit.app/)
 [![CI](https://github.com/turnerluke/digit_recog/actions/workflows/ci.yml/badge.svg)](https://github.com/turnerluke/digit_recog/actions/workflows/ci.yml)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3110/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
