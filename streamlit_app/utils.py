@@ -7,7 +7,9 @@ import pandas as pd
 def preprocess_image(img: np.ndarray) -> np.ndarray:
 
     img = np.mean(img, axis=2)  # To B&W image (2 dimensional)
-    img = cv2.resize(img, (32, 32), interpolation=cv2.INTER_AREA)  # To (32, 32) for model input
+    img = cv2.resize(
+        img, (32, 32), interpolation=cv2.INTER_AREA
+    )  # To (32, 32) for model input
 
     # Scale vals from 0 -> 1, guarding against a uniform (blank) canvas
     value_range = img.max() - img.min()
@@ -33,11 +35,13 @@ def create_certainty_chart(output: np.ndarray) -> alt.Chart:
     confidence = output[0] * 100
     predicted = int(confidence.argmax())
 
-    data = pd.DataFrame({
-        "digit": [str(i) for i in range(10)],
-        "confidence": confidence,
-        "predicted": [i == predicted for i in range(10)],
-    })
+    data = pd.DataFrame(
+        {
+            "digit": [str(i) for i in range(10)],
+            "confidence": confidence,
+            "predicted": [i == predicted for i in range(10)],
+        }
+    )
 
     return (
         alt.Chart(data)

@@ -8,7 +8,7 @@ from utils import preprocess_image, create_certainty_chart
 
 @st.cache_resource
 def load_model():
-    return keras.models.load_model('models/le_net5_v2.h5')
+    return keras.models.load_model("models/le_net5_v2.keras")
 
 
 model = load_model()
@@ -25,9 +25,8 @@ def main():
 
     with st.sidebar:
         st.markdown("---")
-        st.markdown(
-            '<h6>Made in &nbsp<img src="https://streamlit.io/images/brand/streamlit-mark-color.png" alt="Streamlit logo" height="16">&nbsp by <a href="https://github.com/turnerluke">@turnerluke</a></h6>',
-            unsafe_allow_html=True,
+        st.caption(
+            "Made with :streamlit: by [@turnerluke](https://github.com/turnerluke)"
         )
 
 
@@ -35,7 +34,7 @@ def app_page():
     drawing_mode = "freedraw"
     stroke_width = 20
 
-    stroke_color = '#000000'
+    stroke_color = "#000000"
     bg_color = "#eee"
     realtime_update = True
 
@@ -122,8 +121,10 @@ def model_page():
         """
     )
 
-    st.image('images/LeNet_5_v2_Vis.png')
-    st.markdown('**Figure 1:** LeNet-5 CNN Structure (Created with [NN-SVG](http://alexlenail.me/NN-SVG/LeNet.html))')
+    st.image("images/LeNet_5_v2_Vis.png")
+    st.markdown(
+        "**Figure 1:** LeNet-5 CNN Structure (Created with [NN-SVG](http://alexlenail.me/NN-SVG/LeNet.html))"
+    )
 
     st.markdown(
         """
@@ -167,11 +168,13 @@ def model_page():
         
         """
     )
-    st.image('images/training.png')
-    st.markdown('**Figure 2:** Training and validation loss and accuracy versus training epoch')
+    st.image("images/training.png")
+    st.markdown(
+        "**Figure 2:** Training and validation loss and accuracy versus training epoch"
+    )
 
-    st.image('images/cm.png')
-    st.markdown('**Figure 3:** Confusion matrix for the model on the MNIST dataset')
+    st.image("images/cm.png")
+    st.markdown("**Figure 3:** Confusion matrix for the model on the MNIST dataset")
 
     st.markdown(
         """
@@ -182,8 +185,8 @@ def model_page():
         ensure a similar performance on your sketches, they should closely match the data.
         """
     )
-    st.image('images/digits.png')
-    st.markdown('**Figure 4:** Example of digits that are recognized well by the model')
+    st.image("images/digits.png")
+    st.markdown("**Figure 4:** Example of digits that are recognized well by the model")
 
 
 def streamlit_app_page():
