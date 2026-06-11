@@ -36,7 +36,16 @@ tests/                # pytest suite + canvas fixtures
 
 ## Dependencies
 
-The TensorFlow 2.15 stack (and `numpy` 1.x) is pinned to the trained model artifact: the saved `.keras` model loads against this version, and the training pipeline relies on Keras 2 APIs. Moving to a newer TensorFlow/Keras 3 release would require retraining and re-saving the model, so these packages are intentionally held back and excluded from automated dependency updates. The security surface is small — the app loads its own trusted model and runs inference on fixed-size images, with no untrusted-model loading or web-facing TensorFlow serving. All other dependencies are kept current via Dependabot.
+The TensorFlow 2.15 stack (and `numpy` 1.x) is pinned to the trained model artifact: the saved `.keras` model loads against this version, and the training pipeline relies on Keras 2 APIs. Moving to a newer TensorFlow/Keras 3 release would require retraining and re-saving the model. The security surface is small — the app loads its own trusted model and runs inference on fixed-size images, with no untrusted-model loading or web-facing TensorFlow serving.
+
+Because the deployed `requirements.txt` is exported from `uv.lock` (Streamlit Community Cloud does not read `uv.lock` directly), Python dependencies are updated manually rather than by a bot:
+
+```bash
+uv lock --upgrade
+uv export --format requirements-txt --no-hashes --no-annotate --no-header --no-dev --no-emit-project -o requirements.txt
+```
+
+GitHub Actions are kept current via Dependabot, and GitHub's security alerts cover every dependency.
 
 ## Data
 

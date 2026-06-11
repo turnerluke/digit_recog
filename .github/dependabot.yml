@@ -1,28 +1,10 @@
 version: 2
 updates:
-  - package-ecosystem: "uv"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 5
-    # The TensorFlow 2.15 stack is pinned to the trained model artifact and is
-    # end-of-life, so it gets no automated bumps; upgrading means retraining
-    # (see "Dependencies" in the README). numpy is held at 1.x for the same
-    # reason. Everything else is updated, grouped into a single reviewable PR.
-    ignore:
-      - dependency-name: "tensorflow"
-      - dependency-name: "tensorflow-estimator"
-      - dependency-name: "tensorflow-io-gcs-filesystem"
-      - dependency-name: "keras"
-      - dependency-name: "tensorboard"
-      - dependency-name: "tensorboard-data-server"
-      - dependency-name: "ml-dtypes"
-      - dependency-name: "numpy"
-        update-types: ["version-update:semver-major"]
-    groups:
-      python-dependencies:
-        patterns: ["*"]
-
+  # Python dependencies are not auto-updated: the core stack is pinned to the
+  # trained model (see "Dependencies" in the README), and the deployed
+  # requirements.txt is exported from uv.lock, which Dependabot cannot
+  # regenerate. They are updated manually with `uv lock --upgrade`. GitHub's
+  # security alerts still cover every dependency.
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
